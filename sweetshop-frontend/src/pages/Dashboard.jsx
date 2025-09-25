@@ -8,7 +8,7 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/Card";
 import {Badge} from "@/components/ui/Badge";
 import {Search, Filter, RefreshCw, Store} from "lucide-react";
-import {useToast} from "@/hooks/Use-toast";
+import {useToast} from "@/hooks/use-toast";
 
 const Dashboard = () => {
     const {user} = useAuth();
