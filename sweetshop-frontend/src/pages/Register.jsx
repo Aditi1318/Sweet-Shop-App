@@ -88,7 +88,6 @@ const Register = () => {
                     <CardTitle className="text-2xl font-bold">Join Sweet Shop!!</CardTitle>
                     <CardDescription>Create your account to start enjoying our delicious treats</CardDescription>
                 </CardHeader>
-
                 <form onSubmit={handleSubmit}>
                     <CardContent className="space-y-4">
                         <div className="space-y-2">
