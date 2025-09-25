@@ -85,7 +85,7 @@ const Register = () => {
                             <Candy className="h-8 w-8 text-secondary-foreground" />
                         </div>
                     </div>
-                    <CardTitle className="text-2xl font-bold">Join Sweet Shop!</CardTitle>
+                    <CardTitle className="text-2xl font-bold">Join Sweet Shop!!</CardTitle>
                     <CardDescription>Create your account to start enjoying our delicious treats</CardDescription>
                 </CardHeader>
 
