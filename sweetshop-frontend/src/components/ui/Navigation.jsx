@@ -1,6 +1,6 @@
 import React from "react";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {Button} from "./button";
+import {Button} from "./Button";
 import {useAuth} from "@/contexts/AuthContext";
 import {Candy, LogOut, Settings, Store} from "lucide-react";
 

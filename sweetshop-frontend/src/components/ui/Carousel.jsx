@@ -3,7 +3,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import {ArrowLeft, ArrowRight} from "lucide-react";
 
 import {cn} from "../lib/utils"; // adjust path as needed
-import {Button} from "../components/ui/button"; // adjust path as needed
+import {Button} from "../components/ui/Button"; // adjust path as needed
 
 const CarouselContext = React.createContext(null);
 
