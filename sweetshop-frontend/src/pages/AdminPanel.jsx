@@ -3,7 +3,7 @@ import React, {useState, useEffect} from "react";
 import {Button} from "@/components/ui/Button";
 import {Input} from "@/components/ui/Input";
 import {Label} from "@/components/ui/Label";
-import {Textarea} from "@/components/ui/Textarea";
+import {Textarea} from "@/components/ui/TextArea";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/Card";
 import {
     Dialog,
