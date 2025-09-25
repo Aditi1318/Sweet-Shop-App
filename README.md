@@ -150,3 +150,4 @@ Endpoint	        Method	    Status	    Notes
 This project is for educational purposes. All rights reserved.
 
 GitHub Repository: https://github.com/Aditi1318/Sweet-Shop-App
+VERCEL LINK https://sweet-shop-app.vercel.app/
