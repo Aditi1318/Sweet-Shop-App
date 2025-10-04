@@ -29,6 +29,7 @@ public class SecurityConfig {
     /**
      * Defines a PasswordEncoder bean to be used for hashing passwords.
      * BCrypt is the recommended standard.
+     * 
      * @return A PasswordEncoder instance.
      */
     @Bean
@@ -39,18 +40,21 @@ public class SecurityConfig {
     /**
      * Exposes the AuthenticationManager as a Bean.
      * Required for the authentication process, especially in the AuthController.
+     * 
      * @param authenticationConfiguration The authentication configuration.
      * @return The AuthenticationManager.
      * @throws Exception If an error occurs.
      */
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     /**
      * Configures the security filter chain.
      * This is where you define which endpoints are public and which are protected.
+     * 
      * @param http The HttpSecurity object to configure.
      * @return The configured SecurityFilterChain.
      * @throws Exception If an error occurs.
@@ -64,7 +68,10 @@ public class SecurityConfig {
                 // 2. Configure CORS to allow requests from your frontend
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration configuration = new CorsConfiguration();
-                    configuration.setAllowedOrigins(List.of("http://localhost:5173")); // Your frontend URL
+                    configuration
+                            .setAllowedOrigins(List.of("http://localhost:5173", "https://sweet-shop-app.vercel.app/")); // Your
+                                                                                                                        // frontend
+                                                                                                                        // URL
                     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     configuration.setAllowedHeaders(List.of("*"));
                     configuration.setAllowCredentials(true);
