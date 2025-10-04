@@ -13,6 +13,7 @@ const Register = () => {
         email: "",
         password: "",
         confirmPassword: "",
+        inviteCode: "", // Add state for the invite code
     });
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -69,8 +70,10 @@ const Register = () => {
 
         if (!validateForm()) return;
 
+        // Destructure and pass all necessary data, including inviteCode
         const {confirmPassword, ...registerData} = formData;
         const result = await register(registerData);
+
         if (result.success) {
             navigate("/login");
         }
@@ -106,7 +109,6 @@ const Register = () => {
 
                         <div className="space-y-2">
                             <Label htmlFor="email">Email</Label>
-
                             <Input
                                 id="email"
                                 name="email"
@@ -167,6 +169,7 @@ const Register = () => {
                                     className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                 >
+                                    {/* THIS WAS THE LINE WITH THE TYPO */}
                                     {showConfirmPassword ? (
                                         <EyeOff className="h-4 w-4 text-muted-foreground" />
                                     ) : (
@@ -177,6 +180,18 @@ const Register = () => {
                             {errors.confirmPassword && (
                                 <p className="text-sm text-destructive">{errors.confirmPassword}</p>
                             )}
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="inviteCode">Admin Invite Code (Optional)</Label>
+                            <Input
+                                id="inviteCode"
+                                name="inviteCode"
+                                type="text"
+                                placeholder="Enter code to register as admin"
+                                value={formData.inviteCode}
+                                onChange={handleChange}
+                            />
                         </div>
                     </CardContent>
 

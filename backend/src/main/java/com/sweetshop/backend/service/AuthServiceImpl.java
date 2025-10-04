@@ -7,6 +7,7 @@ import com.sweetshop.backend.model.Role;
 import com.sweetshop.backend.model.User;
 import com.sweetshop.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value; // **Import this**
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,6 +31,10 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    // 👇 **1. Inject the secret code from your application.properties file**
+    @Value("${admin.invite-code}")
+    private String adminInviteCode;
+
     @Override
     public String register(RegisterDto registerDto) {
         // Check if username already exists
@@ -42,9 +47,12 @@ public class AuthServiceImpl implements AuthService {
         user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
-        // By default, new users are assigned the USER role.
-        // You can add logic here to assign ADMIN role if needed.
-        user.setRole(Role.USER);
+        // 👇 **2. Add logic to check the invite code and assign the role**
+        if (adminInviteCode.equals(registerDto.getInviteCode())) {
+            user.setRole(Role.ADMIN);
+        } else {
+            user.setRole(Role.USER);
+        }
 
         userRepository.save(user);
 
