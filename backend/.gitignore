@@ -1,35 +1,56 @@
+# ===================================================================
+# General Build Artifacts & Logs
+# ===================================================================
 HELP.md
 target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+*.log
+*.jar
+*.war
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# ===================================================================
+# Maven Wrapper
+# ===================================================================
+.mvn/wrapper/maven-wrapper.jar
+
+# ===================================================================
+# IDE Specific Files
+# ===================================================================
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
 
+### STS / Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
 ### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
 ### VS Code ###
 .vscode/
 
+# ===================================================================
+# Secrets and Local Configuration
+#
+# IMPORTANT: This will ignore your local application.properties file
+# to prevent committing secrets like database passwords.
+# You should commit a template file like 'application.properties.example' instead.
+# ===================================================================
 /src/main/resources/application.properties
+
+# A common pattern for local-only docker-compose overrides
+docker-compose.override.yml
+.env

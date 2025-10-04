@@ -1,0 +1,35 @@
+# Stage 1: Build the application using Maven
+# We use a specific Maven image that includes JDK 21 to match your project's Java version.
+FROM maven:3.9-eclipse-temurin-21 AS build
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the Maven project file to leverage Docker layer caching
+COPY pom.xml .
+
+# Download dependencies. This step is cached if pom.xml doesn't change.
+RUN mvn dependency:go-offline
+
+# Copy the rest of your source code
+COPY src ./src
+
+# Package the application into an executable JAR file
+RUN mvn package -DskipTests
+
+
+# Stage 2: Create the final, lightweight runtime image
+# We use a slim OpenJDK 21 image for a smaller footprint.
+FROM eclipse-temurin:21-jre-jammy
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the executable JAR file from the 'build' stage
+COPY --from=build /app/target/backend-0.0.1-SNAPSHOT.jar app.jar
+
+# Expose the port that the application runs on (default is 8080)
+EXPOSE 8080
+
+# Set the entry point to run the application when the container starts
+ENTRYPOINT ["java", "-jar", "app.jar"]
