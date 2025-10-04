@@ -69,9 +69,9 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration configuration = new CorsConfiguration();
                     configuration
-                            .setAllowedOrigins(List.of("http://localhost:5173", "https://sweet-shop-app.vercel.app/")); // Your
-                                                                                                                        // frontend
-                                                                                                                        // URL
+                            .setAllowedOrigins(List.of("http://localhost:5173", "https://sweet-shop-app.vercel.app")); // Your
+                                                                                                                       // frontend
+                                                                                                                       // URL
                     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     configuration.setAllowedHeaders(List.of("*"));
                     configuration.setAllowCredentials(true);
