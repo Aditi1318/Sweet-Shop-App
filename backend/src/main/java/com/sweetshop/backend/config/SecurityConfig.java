@@ -20,74 +20,52 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity // Enables method-level security like @PreAuthorize
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
-    /**
-     * Defines a PasswordEncoder bean to be used for hashing passwords.
-     * BCrypt is the recommended standard.
-     * 
-     * @return A PasswordEncoder instance.
-     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    /**
-     * Exposes the AuthenticationManager as a Bean.
-     * Required for the authentication process, especially in the AuthController.
-     * 
-     * @param authenticationConfiguration The authentication configuration.
-     * @return The AuthenticationManager.
-     * @throws Exception If an error occurs.
-     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
             throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    /**
-     * Configures the security filter chain.
-     * This is where you define which endpoints are public and which are protected.
-     * 
-     * @param http The HttpSecurity object to configure.
-     * @return The configured SecurityFilterChain.
-     * @throws Exception If an error occurs.
-     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 1. Disable CSRF protection for stateless REST APIs
+                // 1. Disable CSRF (for stateless REST APIs with JWT)
                 .csrf(csrf -> csrf.disable())
 
-                // 2. Configure CORS to allow requests from your frontend
+                // 2. Enable and configure CORS
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration configuration = new CorsConfiguration();
-                    configuration
-                            .setAllowedOrigins(List.of("http://localhost:5173", "https://sweet-shop-app.vercel.app")); // Your
-                                                                                                                       // frontend
-                                                                                                                       // URL
+                    configuration.setAllowedOrigins(List.of(
+                            "http://localhost:5173",
+                            "https://sweet-shop-app.vercel.app"));
                     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     configuration.setAllowedHeaders(List.of("*"));
+                    configuration.setExposedHeaders(List.of("Authorization")); // important if JWT is used
                     configuration.setAllowCredentials(true);
                     return configuration;
                 }))
 
-                // 3. Define authorization rules for different endpoints
+                // 3. Define authorization rules
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Public endpoints
-                        .anyRequest().authenticated() // All other endpoints require authentication
+                        .requestMatchers("/api/auth/**").permitAll() // Public auth endpoints
+                        .anyRequest().authenticated() // Everything else requires authentication
                 )
 
-                // 4. Set the session management policy to stateless
+                // 4. Stateless session (since JWT is used)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                // 5. Add the custom JWT filter before the standard username/password filter
+                // 5. Add JWT filter
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
