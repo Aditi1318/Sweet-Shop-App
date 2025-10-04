@@ -1,34 +1,68 @@
-version: '3.8'
+
+
+# services:
+#   # Backend Application Service
+#   backend:
+#     build: .
+#     container_name: sweetshop_backend_service
+#     ports:
+#       - "8080:8080"
+#     environment:
+#       # Database connection details
+#       - DB_URL=jdbc:mysql://db:3306/sweetshop_db?createDatabaseIfNotExist=true
+#       - DB_USER=root
+#       - DB_PASS=12345678
+
+#       # Security secrets
+#       - JWT_SECRET=8fKq9R4u7x!A%D*G-KaPdSgVkYp3s6v9
+#       - ADMIN_INVITE_CODE=ADMIN2025 # <-- ADDED THIS LINE
+
+#     depends_on:
+#       - db # Ensures the database starts before the backend
+
+#   # MySQL Database Service
+#   db:
+#     image: mysql:8.0
+#     container_name: sweetshop_mysql_db
+#     ports:
+#       - "3307:3306"
+#     environment:
+#       - MYSQL_ROOT_PASSWORD=12345678
+#       - MYSQL_DATABASE=sweetshop_db
+#     volumes:
+#       - mysql-data:/var/lib/mysql
+
+# volumes:
+#   mysql-data:
+
+
 
 services:
-  # Backend Application Service
   backend:
     build: .
     container_name: sweetshop_backend_service
     ports:
       - "8080:8080"
     environment:
-      # Update the DB_URL to point to the 'db' service name instead of host.docker.internal
       - DB_URL=jdbc:mysql://db:3306/sweetshop_db?createDatabaseIfNotExist=true
-      - DB_USER=root
-      - DB_PASS=12345678
-      - JWT_SECRET=8fKq9R4u7x!A%D*G-KaPdSgVkYp3s6v9
+      - DB_USER=${DB_USER} # Reads from .env file
+      - DB_PASS=${DB_PASS} # Reads from .env file
+      - JWT_SECRET=${JWT_SECRET} # Reads from .env file
+      - ADMIN_INVITE_CODE=${ADMIN_INVITE_CODE} # Reads from .env file
     depends_on:
-      - db # Tells the backend to wait for the db service to start
+      - db
 
-  # MySQL Database Service
   db:
-    image: mysql:8.0 # Use the official MySQL 8.0 image
+    image: mysql:8.0
     container_name: sweetshop_mysql_db
     ports:
-      # Map your local machine's port 3307 to the container's port 3306
-      # This avoids conflicts if you have another MySQL running on port 3306 locally
       - "3307:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=12345678
+      # Use the same variable for consistency
+      - MYSQL_ROOT_PASSWORD=${DB_PASS} 
       - MYSQL_DATABASE=sweetshop_db
     volumes:
-      - mysql-data:/var/lib/mysql # Persist database data on your host machine
+      - mysql-data:/var/lib/mysql
 
 volumes:
-  mysql-data: # Defines the named volume
+  mysql-data:

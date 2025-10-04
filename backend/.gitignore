@@ -44,13 +44,11 @@ build/
 
 # ===================================================================
 # Secrets and Local Configuration
-#
-# IMPORTANT: This will ignore your local application.properties file
-# to prevent committing secrets like database passwords.
-# You should commit a template file like 'application.properties.example' instead.
 # ===================================================================
-/src/main/resources/application.properties
 
-# A common pattern for local-only docker-compose overrides
-docker-compose.override.yml
+# Ignore the .env file which contains secret keys and passwords.
+# Commit the env.example file as a template instead.
 .env
+
+# A common pattern for local-only docker-compose overrides.
+docker-compose.override.yml
